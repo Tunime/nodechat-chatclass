@@ -15,6 +15,9 @@ var messages = [{
 	author: "Paco",
     text: "Genial!"
 }];
+app.get('/',function(req, res){
+    res.status(200).send("hola mundo");
+});
 // el servidor corriendo
 //node server/main.js
 server.listen(8080, function() {

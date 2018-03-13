@@ -1,34 +1,31 @@
-//llama a la express
 var express = require('express');
 var app = express();
-//la variable que requiere el http
 var server = require('http').Server(app);
-//la variable io tendra todas la funcionalidades de los socket.io
 var io = require('socket.io')(server);
-app.use(express.static('public'));
+
 var messages = [{
-	author: "Carlos",
-    text: "Hola! que tal?"
-},{
-	author: "Pepe",
-    text: "Muy bien! y tu??"
-},{
-	author: "Paco",
-    text: "Genial!"
+  id: 1,
+  text: "Hola soy un mensaje",
+  author: "Carlos Azaustre"
 }];
-//la primera ruta
-app.get('/',function(req, res){
-    res.status(200).send("hola mundosda");
+
+app.use(express.static('public'));
+
+app.get('/hello', function(req, res) {
+  res.status(200).send("Hello World!");
 });
-//que escuche mensajes del servidor
+
 io.on('connection', function(socket) {
-	console.log('Un cliente se ha conectado');
-    socket.emit('messages', messages);
+  console.log('Alguien se ha conectado con Sockets');
+  socket.emit('messages', messages);
+
+  socket.on('new-message', function(data) {
+    messages.push(data);
+
+    io.sockets.emit('messages', messages);
+  });
 });
 
-// el servidor corriendo
-//node server/main.js
 server.listen(8080, function() {
-	console.log('Servidor corriendo en http://localhost:8080');
+  console.log("Servidor corriendo en http://localhost:8080");
 });
-

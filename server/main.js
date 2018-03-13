@@ -15,9 +15,16 @@ var messages = [{
 	author: "Paco",
     text: "Genial!"
 }];
+//la primera ruta
 app.get('/',function(req, res){
-    res.status(200).send("hola mundo");
+    res.status(200).send("hola mundosda");
 });
+//que escuche mensajes del servidor
+io.on('connection', function(socket) {
+	console.log('Un cliente se ha conectado');
+    socket.emit('messages', messages);
+});
+
 // el servidor corriendo
 //node server/main.js
 server.listen(8080, function() {

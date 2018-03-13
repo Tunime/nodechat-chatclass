@@ -5,6 +5,7 @@ var app = express();
 var server = require('http').Server(app);
 //la variable io tendra todas la funcionalidades de los socket.io
 var io = require('socket.io')(server);
+app.use(express.static('public'));
 var messages = [{
 	author: "Carlos",
     text: "Hola! que tal?"
